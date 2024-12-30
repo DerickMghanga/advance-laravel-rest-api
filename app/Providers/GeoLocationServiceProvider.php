@@ -6,6 +6,7 @@ use App\Services\GeoLocation\GeoLocation;
 use App\Services\Map\Map;
 use App\Services\Satellite\Satellite;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
 
 class GeoLocationServiceProvider extends ServiceProvider
 {
@@ -16,11 +17,12 @@ class GeoLocationServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->bind(GeoLocation::class, function () {
+        $this->app->bind(GeoLocation::class, function (Application $app) {
             $map = new Map();
             $satellite = new Satellite();
 
             return new GeoLocation($map, $satellite);
+            // return "aaaa";
         });
     }
 
