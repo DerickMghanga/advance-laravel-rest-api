@@ -9,4 +9,8 @@ class Comment extends Model
 {
     /** @use HasFactory<\Database\Factories\CommentFactory> */
     use HasFactory;
+
+    protected $casts = [   // "property"
+        'body' => 'array' // laravel automatically converts array to json and back
+    ];
 }
