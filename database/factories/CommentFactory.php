@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
+use App\Models\User;
+use Database\Factories\Helpers\FactoryHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +19,13 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
+        $postId = FactoryHelper::getRandomModelId(Post::class);
+        $userId = FactoryHelper::getRandomModelId(User::class);
+
         return [
             'body' => [],
-            'user_id' => 1,
-            'post_id' => 1,
+            'user_id' => $userId,
+            'post_id' => $postId,
         ];
     }
 }
