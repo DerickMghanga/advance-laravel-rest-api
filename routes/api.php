@@ -1,39 +1,13 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/users', function (Request $request) {
-    // dump($request);
-    return new JsonResponse([
-        'data' => 'qqqq'
-    ]);
-});
 
-Route::get('/users/{user}', function (User $user) {
-    return new JsonResponse([
-        'data' => $user
-    ]);
-});
-
-Route::post('/users', function () {
-    return new JsonResponse([
-        'data' => 'posted'
-    ]);
-});
-
-Route::patch('/users/{user}', function (User $user) {
-    return new JsonResponse([
-        'data' => 'patched'
-    ]);
-});
-
-Route::delete('/users/{user}', function (User $user) {
-    return new JsonResponse([
-        'data' => 'deleted'
-    ]);
+Route::prefix('v1')->group(function () {
+    require __DIR__ . '/api/v1/users.php'; // adds all users routes from a file
+    require __DIR__ . '/api/v1/posts.php';
+    require __DIR__ . '/api/v1/comments.php';
 });
 
 Route::get('/user', function (Request $request) {
