@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -13,15 +15,25 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::query()->get();
+
+        return new JsonResponse([
+            'data' => $comments
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request)
+    public function store(Request $request)
     {
-        //
+        $created = Comment::query()->create([
+            'body' => $request->body
+        ]);
+
+        return new JsonResponse([
+            'data' => $created
+        ]);
     }
 
     /**
@@ -29,7 +41,9 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        //
+        return new JsonResponse([
+            'data' => $comment
+        ]);
     }
 
     /**
@@ -45,6 +59,16 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $deleted = $comment->forceDelete();
+
+        if (!$deleted) {
+            return new JsonResponse([
+                'errors' => 'Could not delete the model'
+            ], 400);
+        }
+
+        return new JsonResponse([
+            'data' => "Comment deleted successfully!"
+        ]);
     }
 }
