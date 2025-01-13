@@ -4,16 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use PhpParser\Node\Expr\FuncCall;
 
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
+    protected $fillable = [ // allows mass assignment of fieldss
+        'title',
+        'body'
+    ];
+
+    // protected $guarded = [
+    //     'title'
+    // ];
+
+    // protected $hidden = [
+    //     'title'
+    // ];
+
     protected $casts = [
         'body' => 'array' // laravel automatically converts array to json and back
     ];
+
+    // protected $appends = [
+    //     'title_upper_case'
+    // ];
 
     public function getTitleUpperCaseAttribute() // Accessor
     // retrieves the post title in Uppercase
