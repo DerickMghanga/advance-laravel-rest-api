@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -28,10 +27,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $created = Post::query()->create([
-            'title' => $request->title,
-            'body' => $request->body
-        ]);
+        $created = DB::transaction(function () use ($request) {
+            $created = Post::query()->create([
+                'title' => $request->title,
+                'body' => $request->body
+            ]);
+
+            $created->users()->sync($request->user_ids);
+
+            return $created;
+        });
 
         return new JsonResponse([
             'data' => $created
