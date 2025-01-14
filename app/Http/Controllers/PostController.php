@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,9 +18,7 @@ class PostController extends Controller
         // $posts = Post::query()->where('id', '=', '1')->get();
         $posts = Post::query()->get();
 
-        return new JsonResponse([
-            'data' => $posts
-        ]);
+        return PostResource::collection($posts);
     }
 
     /**
@@ -38,9 +37,7 @@ class PostController extends Controller
             return $created;
         });
 
-        return new JsonResponse([
-            'data' => $created
-        ]);
+        return new PostResource($created);
     }
 
     /**
@@ -48,9 +45,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return new JsonResponse([
-            'data' => $post
-        ]);
+        return new PostResource($post);
     }
 
     /**
@@ -71,9 +66,7 @@ class PostController extends Controller
             ], 400);
         }
 
-        return new JsonResponse([
-            "data" => $post
-        ]);
+        return new PostResource($post);
     }
 
     /**
