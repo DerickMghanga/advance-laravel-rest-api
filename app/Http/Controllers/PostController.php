@@ -13,10 +13,11 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $pageSize = $request->page_size ?? 20; // users can set items per query
         // $posts = Post::query()->where('id', '=', '1')->get();
-        $posts = Post::query()->get();
+        $posts = Post::query()->paginate($pageSize);
 
         return PostResource::collection($posts);
     }
