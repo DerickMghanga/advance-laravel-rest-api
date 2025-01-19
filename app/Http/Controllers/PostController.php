@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\GeneralJsonException;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Repositories\PostRepository;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +18,8 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        // report(GeneralJsonException::class);
+        // abort(404);  // If you want to quickly send the error response
         $pageSize = $request->page_size ?? 20; // users can set items per query
         // $posts = Post::query()->where('id', '=', '1')->get();
         $posts = Post::query()->paginate($pageSize);
