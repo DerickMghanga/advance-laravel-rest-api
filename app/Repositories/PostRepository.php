@@ -53,7 +53,7 @@ class PostRepository extends BaseRepository
     public function forceDelete($post)
     {
         return DB::transaction(function () use ($post) {
-            $deleted = $post->forceDelete();
+            $deleted = $post->forceDelete();  // returns a boolean
 
             throw_if(!$deleted, GeneralJsonException::class, "Failed to delete post!");
 
