@@ -12,15 +12,25 @@ use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
 
+
+/**
+ * @group User Management
+ * 
+ * APIs to manage the user resource.
+ */
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     * Gets a List of Users
+     * 
      * @queryParam page_size int Size per page. Defaults to 20. Example: 20
      * @queryParam page int Page to view. Example: 1
      *
      * @apiResourceCollection App\Http\Resources\UserResource
      * @apiResourceModel App\Models\User
+     * 
      * @return ResourceCollection
      */
     public function index(Request $request)
@@ -34,10 +44,13 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
      * @bodyParam name string required Name of the user. Example: John Doe
      * @bodyParam email string required Email of the user. Example: doe@doe.com
+     * 
      * @apiResource App\Http\Resources\UserResource
      * @apiResourceModel App\Models\User
+     * 
      * @param \Illuminate\Http\Request $request
      * @return UserResource
      */
@@ -53,6 +66,13 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     * 
+     * @urlParam id int required User ID
+     * @apiResource App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
+     * 
+     * @param \App\Models\User $user
+     * @return UserResource
      */
     public function show(User $user)
     {
@@ -61,8 +81,10 @@ class UserController extends Controller
 
     /**
      * Update the specified user in storage.
+     * 
      * @bodyParam name string Name of the user. Example: John Doe
      * @bodyParam email string Email of the user. Example: doe@doe.com
+     * 
      * @apiResource App\Http\Resources\UserResource
      * @apiResourceModel App\Models\User
      * @param \Illuminate\Http\Request $request
@@ -81,6 +103,11 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * 
+     * @response 200 {
+     *  "data" : "success"
+     * }
+     * 
      */
     public function destroy(User $user, UserRepository $repository)
     {
